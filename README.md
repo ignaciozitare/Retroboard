@@ -1,4 +1,4 @@
-# RetroBoard
+# [WIP]RetroBoard
 
 Aplicación web para liderar retrospectivas de equipo en tiempo real.  
 Stack: **React 18 + Vite + Supabase + Vercel**
