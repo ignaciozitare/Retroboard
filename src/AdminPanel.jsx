@@ -4,7 +4,7 @@ import { Avatar, RoleBadge, StatBox, Btn } from "./ui";
 export function AdminPanel({ users, setUsers, teams, lang }) {
   const [filterTeam, setFilterTeam] = useState("");
 
-  const visible = filterTeam ? users.filter(u => u.teamId === filterTeam) : users;
+  const visible = filterTeam ? users.filter(u => (u.teamIds||[]).includes(filterTeam)) : users;
   const adminCount = users.filter(u => u.role === "admin").length;
 
   const changeRole = (targetId, newRole) => {
@@ -18,7 +18,7 @@ export function AdminPanel({ users, setUsers, teams, lang }) {
     setUsers(prev => prev.map(u => {
       if (u.id === targetId) return { ...u, role: newRole };
       // Auto-demote current owner when promoting new one to same team
-      if (newRole === "owner" && u.role === "owner" && u.teamId === target.teamId && u.id !== targetId) {
+      if (newRole === "owner" && u.role === "owner" && (u.teamIds||[]).some(tid=>(target.teamIds||[]).includes(tid)) && u.id !== targetId) {
         return { ...u, role: "temporal" };
       }
       return u;
@@ -76,14 +76,15 @@ export function AdminPanel({ users, setUsers, teams, lang }) {
                 <tr><td colSpan={7} style={{ padding:"20px", textAlign:"center", color:"#334155", fontSize:13 }}>No hay usuarios en este equipo</td></tr>
               )}
               {visible.map(u => {
-                const team = teams.find(t => t.id === u.teamId);
+                const userTeams = teams.filter(t => (u.teamIds||[]).includes(t.id));
+                  const team = userTeams[0];
                 const isLastAdmin = u.role === "admin" && adminCount <= 1;
                 return (
                   <tr key={u.id} style={{ borderBottom:"1px solid rgba(255,255,255,.04)" }}>
                     <td style={{ padding:"10px 12px" }}><Avatar initials={u.initials} color={u.color} size={28} /></td>
                     <td style={{ padding:"10px 12px", fontSize:13, color:"#e2e8f0", fontWeight:500 }}>{u.name}</td>
                     <td style={{ padding:"10px 12px", fontSize:12, color:"#64748b" }}>{u.email}</td>
-                    <td style={{ padding:"10px 12px", fontSize:12, color:team?.color||"#475569" }}>{team?.name||"—"}</td>
+                    <td style={{ padding:"10px 12px", fontSize:12, color:team?.color||"#475569" }}>{userTeams.map(t=>t.name).join(", ")||"—"}</td>
                     <td style={{ padding:"10px 12px" }}><RoleBadge role={u.role} /></td>
                     <td style={{ padding:"10px 12px" }}>
                       <select value={u.role} onChange={e => changeRole(u.id, e.target.value)}

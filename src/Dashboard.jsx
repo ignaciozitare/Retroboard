@@ -3,7 +3,7 @@ import { Btn, StatBox, dateStr } from "./ui";
 
 export function Dashboard({ user, setView, history: historyProp, lang }) {
   const myHistory = (historyProp || DEMO_HISTORY).filter(r =>
-    user.role === "admin" || r.teamId === user.teamId
+    user.role === "admin" || (user.teamIds||[]).includes(r.teamId)
   );
   const lastRetro  = myHistory[myHistory.length - 1];
   const openItems  = myHistory.flatMap(r => r.actionables).filter(a => a.status === "open").length;

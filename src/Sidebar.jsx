@@ -14,7 +14,7 @@ const NAV = [
 
 export function Sidebar({ user, view, setView, onLogout, onNuevaRetro, theme, setTheme, lang, setLang }) {
   const t = useT(lang);
-  const teamName = DEMO_TEAMS.find(te => te.id === user.teamId)?.name || "Global";
+  const teamName = DEMO_TEAMS.filter(te => (user.teamIds||[]).includes(te.id)).map(t=>t.name).join(", ") || "Global";
   const items = NAV.filter(i => i.roles.includes(user.role));
 
   return (

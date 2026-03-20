@@ -52,7 +52,7 @@ function RetroHeader({ retroName, phase, isMod, goTo, onExit, lang }) {
 
 const PM = (p) => ({ ic:PHASE_META[p].icon, l:PHASE_META[p].label, c:PHASE_META[p].color });
 
-export function RetroFlow({ user, teamMembers, onFinish, onSaveRetro, onSetKanban, lang }) {
+export function RetroFlow({ user, teamMembers, allUsers, allTeams, selectedTeamId, setSelectedTeamId, onFinish, onSaveRetro, onSetKanban, lang }) {
   const t = useT(lang);
   const isMod = ["admin","owner","temporal"].includes(user.role);
 
@@ -97,7 +97,7 @@ export function RetroFlow({ user, teamMembers, onFinish, onSaveRetro, onSetKanba
 
   const renderPhase=()=>{
     switch(phase){
-      case "lobby":      return <RetroLobby user={user} teamMembers={teamMembers} retroName={retroName} setRetroName={setRetroName} phaseTimes={phaseTimes} setPhaseTimes={setPhaseTimes} votesPerUser={votesPerUser} setVotesPerUser={setVotesPerUser} onStart={()=>goTo("creating")} lang={lang} />;
+      case "lobby":      return <RetroLobby user={user} teamMembers={teamMembers} allUsers={allUsers} allTeams={allTeams} retroName={retroName} setRetroName={setRetroName} selectedTeamId={selectedTeamId} setSelectedTeamId={setSelectedTeamId} phaseTimes={phaseTimes} setPhaseTimes={setPhaseTimes} votesPerUser={votesPerUser} setVotesPerUser={setVotesPerUser} onStart={()=>goTo("creating")} lang={lang} />;
       case "creating":   return <RetroCreating isMod={isMod} myCards={myCards} setMyCards={setMyCards} {...tp("creating")} onFinish={()=>goTo("grouping")} lang={lang} />;
       case "grouping":   return <RetroGrouping isMod={isMod} cards={boardCards} setCards={setBoardCards} {...tp("grouping")} onFinish={()=>goTo("voting")} lang={lang} />;
       case "voting":     return <RetroVoting isMod={isMod} allCards={allCards} myVotes={myVotes} onVote={vote} onRemoveVote={removeVote} votesPerUser={votesPerUser} {...tp("voting")} onFinish={()=>goTo("discussion")} lang={lang} />;

@@ -13,8 +13,8 @@ export function Usuarios({ user, users, setUsers, teams, lang }) {
   const [editId, setEditId]   = useState(null);
   const [editData, setEditData] = useState({});
 
-  const myTeams = user.role === "admin" ? teams : teams.filter(t => t.id === user.teamId);
-  const myUsers = user.role === "admin" ? users : users.filter(u => u.teamId === user.teamId);
+  const myTeams = user.role === "admin" ? teams : teams.filter(t => (user.teamIds||[]).includes(t.id));
+  const myUsers = user.role === "admin" ? users : users.filter(u => (u.teamIds||[]).some(tid => (user.teamIds||[]).includes(tid)));
 
   const create = () => {
     if (!name.trim() || !email.trim()) return;
@@ -22,7 +22,7 @@ export function Usuarios({ user, users, setUsers, teams, lang }) {
     const id       = "u" + Date.now();
     const color    = AVATAR_COLORS[users.length % AVATAR_COLORS.length];
     const initials = name.trim().split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
-    setUsers(p => [...p, { id, name:name.trim(), email:email.trim(), role, teamId:teamId||null, initials, color }]);
+    setUsers(p => [...p, { id, name:name.trim(), email:email.trim(), role, teamIds:teamId?[teamId]:[], initials, color }]);
     setCreds(p => [...p, { id, name:name.trim(), email:email.trim(), password:pass }]);
     setName(""); setEmail("");
   };
@@ -35,12 +35,12 @@ export function Usuarios({ user, users, setUsers, teams, lang }) {
 
   const startEdit = (u) => {
     setEditId(u.id);
-    setEditData({ name:u.name, email:u.email, role:u.role, teamId:u.teamId||"" });
+    setEditData({ name:u.name, email:u.email, role:u.role, teamId:(u.teamIds||[])[0]||"" });
   };
 
   const saveEdit = () => {
     setUsers(p => p.map(u => u.id === editId
-      ? { ...u, name:editData.name, email:editData.email, role:editData.role, teamId:editData.teamId||null,
+      ? { ...u, name:editData.name, email:editData.email, role:editData.role, teamIds:editData.teamId?[editData.teamId]:[],
           initials:editData.name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase() }
       : u
     ));
@@ -149,7 +149,8 @@ export function Usuarios({ user, users, setUsers, teams, lang }) {
             </thead>
             <tbody>
               {myUsers.map(u => {
-                const team = teams.find(t => t.id === u.teamId);
+                const userTeams = teams.filter(t => (u.teamIds||[]).includes(t.id));
+              const team = userTeams[0];
                 const isEditing = editId === u.id;
                 return (
                   <tr key={u.id} style={{ borderTop:"1px solid rgba(255,255,255,.05)" }}>

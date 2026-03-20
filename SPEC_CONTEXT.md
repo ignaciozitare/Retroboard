@@ -231,13 +231,31 @@ actionables  (id, card_id, text, assignee, due_date, status, created_at)
 - **Pre-retro: historial del equipo**: en el Lobby, botón "📚 Ver historial del equipo" abre panel lateral con las retros anteriores del mismo equipo
 - **Pre-retro: accionables pendientes**: en el Lobby, botón "🎯 Accionables pendientes" muestra los accionables abiertos de la última retro del equipo para revisarlos antes de empezar
 
-### v8 — Kanban accionables + tema claro/oscuro + i18n ES/EN + UX mejoras
-**Nuevas funcionalidades:**
-- **Tablero Kanban de Accionables**: nueva vista en sidebar con 4 columnas — Por hacer / En progreso / Hecho / Cancelado. Cada accionable de todas las retros del equipo aparece aquí. Botones contextuales para mover entre estados
-- **Al terminar una retro**: selector de accionables para pasar directamente a "En progreso" en el kanban
-- **Tema claro/oscuro**: toggle ☀️/🌙 en la sidebar. Usa CSS variables en toda la app para cambio instantáneo sin reload
-- **Selector de idioma ES/EN**: botón EN/ES en la sidebar que traduce toda la UI
-- **PDF eliminado**: solo CSV con descarga real via Blob
-- **Botón Salir retro prominente**: ahora en rojo visible en el header de la retro (no escondido en el extremo)
-- **i18n completo**: todas las cadenas de texto externalizadas en `src/i18n.js`
-- **CSS variables**: toda la UI usa `var(--bg)`, `var(--surf)`, `var(--tx)` etc. para soporte de temas
+### v9 — Kanban DnD real + modal coherente + multi-equipo + prioridades + card editable
+**Cambios en el modelo de datos:**
+- `teamIds: string[]` en lugar de `teamId: string` — un usuario puede pertenecer a N equipos
+- `priority: "minor"|"medium"|"major"|"critical"|"blocker"` en accionables con color y badge
+- `id` propio en cada accionable de DEMO_HISTORY para tracking en el kanban
+
+**Kanban Accionables — reescrito completo:**
+- Drag & drop HTML5 nativo entre columnas Y reorden vertical dentro de cada columna (línea azul de inserción como Jira)
+- Filtros: por equipo, por usuario asignado, por prioridad
+- Click en tarjeta abre un modal de detalle completo con todos los campos editables: texto, estado, prioridad, responsable, fecha límite
+- Botones contextuales de cambio de estado en cada tarjeta (círculos de color)
+
+**RetroLobby:**
+- Selector de equipo al crear retro (si el usuario pertenece a >1 equipo)
+- Los paneles de historial y accionables previos ahora usan el Modal del sistema (no alert/fondo negro)
+
+**RetroDiscussion:**
+- Campo de prioridad con 5 niveles (Minor/Medium/Major/Critical/Blocker) con selección visual inline
+- Fecha límite editable inline
+
+**Modal.jsx** — componente reutilizable para todos los overlays del sistema. Cierra con ESC o clic fuera. Coherente con el tema claro/oscuro.
+
+**Equipos:**
+- Gestión de miembros vía Modal (ya no inline expand)
+- addMember usa `teamIds` array — el usuario se añade al equipo sin salir de sus equipos actuales
+- removeMember filtra el teamId del array
+
+**alert() eliminados** — todos los mensajes de error/validación usan la UI inline (texto rojo bajo el input)
