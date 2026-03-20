@@ -230,3 +230,14 @@ actionables  (id, card_id, text, assignee, due_date, status, created_at)
 - **Historial agrupado por equipo**: la vista Historial muestra secciones colapsables por equipo con sus retros
 - **Pre-retro: historial del equipo**: en el Lobby, botón "📚 Ver historial del equipo" abre panel lateral con las retros anteriores del mismo equipo
 - **Pre-retro: accionables pendientes**: en el Lobby, botón "🎯 Accionables pendientes" muestra los accionables abiertos de la última retro del equipo para revisarlos antes de empezar
+
+### v8 — Kanban accionables + tema claro/oscuro + i18n ES/EN + UX mejoras
+**Nuevas funcionalidades:**
+- **Tablero Kanban de Accionables**: nueva vista en sidebar con 4 columnas — Por hacer / En progreso / Hecho / Cancelado. Cada accionable de todas las retros del equipo aparece aquí. Botones contextuales para mover entre estados
+- **Al terminar una retro**: selector de accionables para pasar directamente a "En progreso" en el kanban
+- **Tema claro/oscuro**: toggle ☀️/🌙 en la sidebar. Usa CSS variables en toda la app para cambio instantáneo sin reload
+- **Selector de idioma ES/EN**: botón EN/ES en la sidebar que traduce toda la UI
+- **PDF eliminado**: solo CSV con descarga real via Blob
+- **Botón Salir retro prominente**: ahora en rojo visible en el header de la retro (no escondido en el extremo)
+- **i18n completo**: todas las cadenas de texto externalizadas en `src/i18n.js`
+- **CSS variables**: toda la UI usa `var(--bg)`, `var(--surf)`, `var(--tx)` etc. para soporte de temas

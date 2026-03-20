@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Avatar, RoleBadge, StatBox, Btn } from "./ui";
 
-export function AdminPanel({ users, setUsers, teams }) {
+export function AdminPanel({ users, setUsers, teams, lang }) {
   const [filterTeam, setFilterTeam] = useState("");
 
   const visible = filterTeam ? users.filter(u => u.teamId === filterTeam) : users;

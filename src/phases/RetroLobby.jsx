@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TIMED_PHASES, PHASE_META, MAX_TITLE, DEMO_HISTORY, DEMO_TEAMS } from "../constants";
 import { Avatar, Btn, dateStr } from "../ui";
+import { useT } from "../i18n";
 
 function TimeControl({ ph, value, onDec, onInc }) {
   return (

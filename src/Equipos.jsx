@@ -4,7 +4,7 @@ import { DEMO_USERS } from "./constants";
 
 const TEAM_COLORS = ["#818cf8","#a78bfa","#f472b6","#34d399","#60a5fa","#fb923c"];
 
-export function Equipos({ user, users, setUsers, teams, setTeams }) {
+export function Equipos({ user, users, setUsers, teams, setTeams, lang }) {
   const [newTeamName, setNewTeamName] = useState("");
   const [addMemberEmail, setAddMemberEmail] = useState({});
   const [expanded, setExpanded] = useState({});

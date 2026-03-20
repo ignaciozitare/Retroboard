@@ -3,7 +3,7 @@ import { Avatar, RoleBadge, Btn, genPass } from "./ui";
 
 const AVATAR_COLORS = ["#f472b6","#60a5fa","#34d399","#fb923c","#a78bfa","#38bdf8","#fbbf24"];
 
-export function Usuarios({ user, users, setUsers, teams }) {
+export function Usuarios({ user, users, setUsers, teams, lang }) {
   const [name, setName]       = useState("");
   const [email, setEmail]     = useState("");
   const [teamId, setTeamId]   = useState(user.role === "owner" ? user.teamId : "");

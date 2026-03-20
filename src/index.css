@@ -1,32 +1,59 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── DARK MODE (default) ── */
+:root {
+  --bg:       #0C0E14;
+  --surf:     #161923;
+  --surf2:    #1e2438;
+  --border:   rgba(255,255,255,.07);
+  --border2:  rgba(255,255,255,.12);
+  --tx:       #e2e8f0;
+  --tx2:      #94a3b8;
+  --tx3:      #64748b;
+  --dim:      #334155;
+  --dim2:     #1e2535;
+  --accent:   #6366f1;
+  --accentD:  rgba(99,102,241,.15);
+  --green:    #4ade80;
+  --greenD:   rgba(74,222,128,.13);
+  --red:      #f87171;
+  --redD:     rgba(248,113,113,.13);
+  --yellow:   #fbbf24;
+  --yellowD:  rgba(251,191,36,.13);
+  --purple:   #a78bfa;
+  --purpleD:  rgba(167,139,250,.13);
 }
 
-html, body, #root {
-  height: 100%;
-  font-family: 'DM Sans', system-ui, sans-serif;
-  background: #0C0E14;
-  color: #E2E6F0;
-  overflow: hidden;
+/* ── LIGHT MODE ── */
+.light {
+  --bg:       #f1f5f9;
+  --surf:     #ffffff;
+  --surf2:    #f8fafc;
+  --border:   rgba(0,0,0,.08);
+  --border2:  rgba(0,0,0,.14);
+  --tx:       #0f172a;
+  --tx2:      #475569;
+  --tx3:      #64748b;
+  --dim:      #94a3b8;
+  --dim2:     #cbd5e1;
+  --accent:   #6366f1;
+  --accentD:  rgba(99,102,241,.1);
+  --green:    #16a34a;
+  --greenD:   rgba(22,163,74,.1);
+  --red:      #dc2626;
+  --redD:     rgba(220,38,38,.1);
+  --yellow:   #d97706;
+  --yellowD:  rgba(217,119,6,.1);
+  --purple:   #7c3aed;
+  --purpleD:  rgba(124,58,237,.1);
 }
 
-button, input, select, textarea {
-  font-family: inherit;
-}
-
+html, body, #root { height: 100%; font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--tx); overflow: hidden; }
+button, input, select, textarea { font-family: inherit; }
 ::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: #161923; }
-::-webkit-scrollbar-thumb { background: #2a2f45; border-radius: 3px; }
-
-select option { background: #161923; }
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.4);
-}
-
-@keyframes pulse {
-  from { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5); }
-  to   { box-shadow: 0 0 0 6px rgba(99, 102, 241, 0); }
-}
+::-webkit-scrollbar-track { background: var(--surf); }
+::-webkit-scrollbar-thumb { background: var(--surf2); border-radius: 3px; }
+select option { background: var(--surf); }
+input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.4); }
+@keyframes pulse { from { box-shadow: 0 0 0 0 rgba(99,102,241,.5); } to { box-shadow: 0 0 0 6px rgba(99,102,241,0); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }

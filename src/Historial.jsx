@@ -39,9 +39,9 @@ function RetroDetail({ retro, allUsers }) {
       <div style={{ marginBottom:20 }}>
         <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:12, marginBottom:10 }}>
           <div>
-            <h2 style={{ fontFamily:"'Sora',sans-serif", fontSize:18, color:"#e2e8f0", marginBottom:6 }}>{retro.name}</h2>
+            <h2 style={{ fontFamily:"'Sora',sans-serif", fontSize:18, color:"var(--tx)", marginBottom:6 }}>{retro.name}</h2>
             <div style={{ display:"flex", gap:12, alignItems:"center", flexWrap:"wrap" }}>
-              <span style={{ fontSize:12, color:"#475569" }}>📅 {dateStr(retro.date)}</span>
+              <span style={{ fontSize:12, color:"var(--tx3)" }}>📅 {dateStr(retro.date)}</span>
               {team && <span style={{ fontSize:12, color:team.color, fontWeight:600 }}>{team.name}</span>}
               <div style={{ display:"flex" }}>
                 {(retro.participants||[]).map((uid, i) => {
@@ -50,12 +50,12 @@ function RetroDetail({ retro, allUsers }) {
                   return <div key={uid} style={{ marginLeft:i>0?-6:0 }}><Avatar initials={u.initials} color={u.color} size={24} name={u.name} /></div>;
                 })}
               </div>
-              <span style={{ fontSize:12, color:"#475569" }}>{(retro.participants||[]).length} participantes</span>
+              <span style={{ fontSize:12, color:"var(--tx3)" }}>{(retro.participants||[]).length} participantes</span>
             </div>
           </div>
           <div style={{ display:"flex", gap:8, flexShrink:0 }}>
             <Btn sm v="ghost" onClick={exportCSV}>📥 CSV</Btn>
-            <Btn sm v="ghost" onClick={() => window.print()}>📄 PDF</Btn>
+            
           </div>
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(120px,1fr))", gap:10 }}>
@@ -67,9 +67,9 @@ function RetroDetail({ retro, allUsers }) {
       </div>
 
       {/* Actionables */}
-      <div style={{ background:"#161923", border:"1px solid rgba(255,255,255,.07)", borderRadius:12, overflow:"hidden", marginBottom:16 }}>
+      <div style={{ background:"var(--surf)", border:"1px solid rgba(255,255,255,.07)", borderRadius:12, overflow:"hidden", marginBottom:16 }}>
         <div style={{ padding:"12px 18px", borderBottom:"1px solid rgba(255,255,255,.07)", display:"flex", alignItems:"center", gap:8 }}>
-          <h3 style={{ fontFamily:"'Sora',sans-serif", fontSize:13, color:"#e2e8f0", margin:0 }}>🎯 Accionables</h3>
+          <h3 style={{ fontFamily:"'Sora',sans-serif", fontSize:13, color:"var(--tx)", margin:0 }}>🎯 Accionables</h3>
           <span style={{ background:"rgba(74,222,128,.1)", color:"#4ade80", borderRadius:20, padding:"2px 8px", fontSize:11, fontWeight:700 }}>{retro.actionables.length}</span>
           <span style={{ marginLeft:"auto", fontSize:11, color:"#f87171" }}>{retro.actionables.filter(a=>a.status==="open").length} abiertos</span>
         </div>
@@ -83,7 +83,7 @@ function RetroDetail({ retro, allUsers }) {
           const catCards = (retro.cards||[]).filter(c => c.cat === id);
           if (!catCards.length) return null;
           return (
-            <div key={id} style={{ background:"#161923", border:`1px solid ${cat.color}25`, borderTop:`3px solid ${cat.color}`, borderRadius:10, padding:"12px 14px" }}>
+            <div key={id} style={{ background:"var(--surf)", border:`1px solid ${cat.color}25`, borderTop:`3px solid ${cat.color}`, borderRadius:10, padding:"12px 14px" }}>
               <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8 }}>
                 <span>{cat.emoji}</span>
                 <span style={{ fontSize:12, fontWeight:600, color:cat.color }}>{cat.label}</span>
@@ -100,7 +100,7 @@ function RetroDetail({ retro, allUsers }) {
   );
 }
 
-export function Historial({ user, history: historyProp, users: usersProp }) {
+export function Historial({ user, history: historyProp, users: usersProp, lang }) {
   const allHistory = historyProp || DEMO_HISTORY;
   const allUsers   = usersProp   || DEMO_USERS;
 
@@ -121,7 +121,7 @@ export function Historial({ user, history: historyProp, users: usersProp }) {
     <div style={{ display:"flex", height:"100%", overflow:"hidden" }}>
       {/* Sidebar list grouped by team */}
       <div style={{ width:"clamp(180px,30%,260px)", flexShrink:0, borderRight:"1px solid rgba(255,255,255,.06)", overflowY:"auto", padding:"12px 6px" }}>
-        <p style={{ fontSize:11, color:"#475569", fontWeight:600, marginBottom:10, padding:"0 8px" }}>RETROSPECTIVAS</p>
+        <p style={{ fontSize:11, color:"var(--tx3)", fontWeight:600, marginBottom:10, padding:"0 8px" }}>RETROSPECTIVAS</p>
         {Object.values(byTeam).map(({ team, retros }) => (
           <div key={team?.id||"none"} style={{ marginBottom:16 }}>
             {/* Team header */}
@@ -137,7 +137,7 @@ export function Historial({ user, history: historyProp, users: usersProp }) {
                   style={{ width:"100%", background:active?"rgba(99,102,241,.15)":"transparent", border:`1px solid ${active?"rgba(99,102,241,.4)":"transparent"}`, borderRadius:8, padding:"8px 10px", cursor:"pointer", textAlign:"left", marginBottom:3, fontFamily:"inherit" }}>
                   <div style={{ fontSize:12, color:active?"#e2e8f0":"#94a3b8", fontWeight:active?600:400, marginBottom:2, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{r.name}</div>
                   <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
-                    <span style={{ fontSize:10, color:"#475569" }}>{dateStr(r.date)}</span>
+                    <span style={{ fontSize:10, color:"var(--tx3)" }}>{dateStr(r.date)}</span>
                     <span style={{ fontSize:10, color:"#4ade80" }}>🎯{r.stats.withAction}</span>
                     <span style={{ fontSize:10, color: r.actionables.filter(a=>a.status==="open").length>0?"#f87171":"#4ade80" }}>{r.actionables.filter(a=>a.status==="open").length} ab.</span>
                   </div>

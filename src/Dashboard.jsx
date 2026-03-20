@@ -1,7 +1,7 @@
 import { DEMO_HISTORY, DEMO_TEAMS } from "./constants";
 import { Btn, StatBox, dateStr } from "./ui";
 
-export function Dashboard({ user, setView, history: historyProp }) {
+export function Dashboard({ user, setView, history: historyProp, lang }) {
   const myHistory = (historyProp || DEMO_HISTORY).filter(r =>
     user.role === "admin" || r.teamId === user.teamId
   );
