@@ -10,7 +10,6 @@ import { Equipos }    from "./Equipos";
 import { AdminPanel } from "./AdminPanel";
 import { RetroFlow }  from "./RetroFlow";
 
-// ─── APP SHELL ───────────────────────────────────────────────────────────────
 function AppShell({ user, onLogout }) {
   const [view, setView]       = useState("dashboard");
   const [users, setUsers]     = useState(DEMO_USERS);
@@ -18,17 +17,22 @@ function AppShell({ user, onLogout }) {
   const [history, setHistory] = useState(DEMO_HISTORY);
   const [inRetro, setInRetro] = useState(false);
 
-  // Team members of the current user (for retro participants)
+  // All roles that can moderate (admin too)
+  const canMod = ["admin","owner","temporal"].includes(user.role);
+
   const teamMembers = users.filter(u =>
     u.teamId === user.teamId && u.id !== user.id
   );
 
   const handleSaveRetro = (retroData) => {
-    const newId = "h" + Date.now();
-    setHistory(p => [...p, { id: newId, ...retroData }]);
+    setHistory(p => [...p, { id: "h" + Date.now(), ...retroData }]);
   };
 
-  // Full-screen retro mode (replaces sidebar layout)
+  const handleNewRetro = () => {
+    setInRetro(true);
+  };
+
+  // Full-screen retro mode
   if (inRetro) {
     return (
       <RetroFlow
@@ -45,30 +49,30 @@ function AppShell({ user, onLogout }) {
       case "dashboard": return <Dashboard  user={user} setView={setView} history={history} />;
       case "history":   return <Historial  user={user} history={history} users={users} />;
       case "users":     return <Usuarios   user={user} users={users} setUsers={setUsers} teams={teams} />;
-      case "teams":     return <Equipos    user={user} users={users} teams={teams} setTeams={setTeams} />;
+      case "teams":     return <Equipos    user={user} users={users} setUsers={setUsers} teams={teams} setTeams={setTeams} />;
       case "admin":     return <AdminPanel users={users} setUsers={setUsers} teams={teams} />;
       default:          return <Dashboard  user={user} setView={setView} history={history} />;
     }
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+    <div style={{ display:"flex", height:"100vh", overflow:"hidden" }}>
       <Sidebar
-        user={user} view={view} setView={setView}
+        user={user}
+        view={view}
+        setView={setView}
         onLogout={onLogout}
-        onNuevaRetro={() => setInRetro(true)}
+        onNuevaRetro={canMod ? handleNewRetro : undefined}
       />
-      <main style={{ flex: 1, overflow: "auto", background: "#0C0E14" }}>
+      <main style={{ flex:1, overflow:"auto", background:"#0C0E14" }}>
         {renderView()}
       </main>
     </div>
   );
 }
 
-// ─── ROOT ────────────────────────────────────────────────────────────────────
-function App() {
+export default function App() {
   const [user, setUser] = useState(null);
-
   return (
     <>
       <GlobalStyles />
@@ -79,6 +83,3 @@ function App() {
     </>
   );
 }
-
-export default App;
-

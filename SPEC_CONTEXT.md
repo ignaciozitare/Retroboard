@@ -214,3 +214,19 @@ actionables  (id, card_id, text, assignee, due_date, status, created_at)
 - **Admin Panel**: estado vacío cuando el filtro de equipo no devuelve usuarios
 - **Build verificado**: `npm run build` limpio sin errores (216KB bundle / 62KB gzip)
 - **SPEC_CONTEXT.md**: añadido a la raíz del repositorio
+
+### v7 — Bug fixes QA ronda 2 + nuevas funcionalidades
+**Bugs corregidos:**
+- **Historial pantalla negra**: `RetroDetail` era función de módulo pero accedía a `usersProp` del scope padre; ahora recibe `users` como prop explícita
+- **Admin no puede gestionar retro**: rol `admin` añadido a `canMod` — puede crear y liderar retros
+- **Nueva Retro no navega**: `onNuevaRetro` no llegaba al Sidebar en ciertos estados; corregido el binding en App
+- **Sin salida desde retro**: botón ✕ Salir siempre visible, llama a `onFinish` que resetea `inRetro`
+- **Export no funciona**: CSV real implementado con `Blob` + `URL.createObjectURL`; PDF usa `window.print()`
+- **No se puede quitar rol admin si es el último**: guard en `AdminPanel` — bloquea el dropdown si quedaría 0 admins
+- **No se pueden editar usuarios ni contraseñas**: fila inline con modo edición (nombre, email, rol) + botón "Resetear contraseña" que genera nueva y la muestra
+- **No se pueden editar equipos**: `Equipos` tiene panel de añadir miembro por email y botón eliminar por miembro
+
+**Nuevas funcionalidades:**
+- **Historial agrupado por equipo**: la vista Historial muestra secciones colapsables por equipo con sus retros
+- **Pre-retro: historial del equipo**: en el Lobby, botón "📚 Ver historial del equipo" abre panel lateral con las retros anteriores del mismo equipo
+- **Pre-retro: accionables pendientes**: en el Lobby, botón "🎯 Accionables pendientes" muestra los accionables abiertos de la última retro del equipo para revisarlos antes de empezar
